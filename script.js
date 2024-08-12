@@ -4,12 +4,30 @@ let playerToDelete = null;
 let playerToEdit = null;
 let currentUser = null;
 
+// Controlla se l'utente è autenticato e aggiorna l'interfaccia
+function checkLogin() {
+    const loggedIn = localStorage.getItem('logged_in');
+    if (loggedIn === 'true') {
+        currentUser = localStorage.getItem('currentUser');
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('appSection').style.display = 'block';
+        showSection('presenze');
+        updateUIForUser();
+    } else {
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('appSection').style.display = 'none';
+    }
+}
+
+// Effettua il login e salva lo stato nel localStorage
 function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
     if ((username === 'calcetto' && password === 'pizzicotto') || (username === 'calcetto' && password === 'topplayer')) {
         currentUser = password === 'topplayer' ? 'admin' : 'player';
+        localStorage.setItem('logged_in', 'true');
+        localStorage.setItem('currentUser', currentUser);
         document.getElementById('loginSection').style.display = 'none';
         document.getElementById('appSection').style.display = 'block';
         showSection('presenze');
@@ -141,6 +159,8 @@ function promptLogout() {
 
 function confirmLogout() {
     currentUser = null;
+    localStorage.removeItem('logged_in'); // Rimuove il flag di login
+    localStorage.removeItem('currentUser'); // Rimuove il tipo di utente
     document.getElementById('appSection').style.display = 'none';
     document.getElementById('loginSection').style.display = 'block';
     closeLogoutModal();
@@ -195,5 +215,5 @@ function updateUIForUser() {
     }
 }
 
-// Mostra la sezione presenze di default
-showSection('presenze');
+// Controlla lo stato di login all'avvio
+checkLogin();
