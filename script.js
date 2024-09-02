@@ -20,7 +20,16 @@ function renderList() {
     const ul = document.getElementById(currentSection + 'List');
     ul.innerHTML = '';
 
-    const sortedPlayers = [...players].sort((a, b) => (b[currentSection]?.total || 0) - (a[currentSection]?.total || 0));
+    // Ordinamento dei giocatori: prima per punteggio, poi per nome in caso di parità
+    const sortedPlayers = [...players].sort((a, b) => {
+        const scoreA = a[currentSection]?.total || 0;
+        const scoreB = b[currentSection]?.total || 0;
+        if (scoreA === scoreB) {
+            // Ordinamento alfabetico se i punteggi sono uguali
+            return a.name.localeCompare(b.name);
+        }
+        return scoreB - scoreA;
+    });
 
     sortedPlayers.forEach(player => {
         const li = document.createElement('li');
@@ -135,7 +144,18 @@ function updateRankings() {
             player[currentSection].partial = 0;
         }
     });
-    players.sort((a, b) => (b[currentSection].total || 0) - (a[currentSection].total || 0));
+
+    // Ordinamento dei giocatori: prima per punteggio, poi per nome in caso di parità
+    players.sort((a, b) => {
+        const scoreA = a[currentSection]?.total || 0;
+        const scoreB = b[currentSection]?.total || 0;
+        if (scoreA === scoreB) {
+            // Ordinamento alfabetico se i punteggi sono uguali
+            return a.name.localeCompare(b.name);
+        }
+        return scoreB - scoreA;
+    });
+
     localStorage.setItem('players', JSON.stringify(players));
     renderList();
 }
