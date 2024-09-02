@@ -77,12 +77,12 @@ li {
 .player-name {
     flex-grow: 1;
     font-weight: bold;
-    margin-right: -350px;
+    margin-right: -100px;
 }
 
 .player-ranking {
     font-weight: bold;
-    margin-right: 280px;
+    margin-right: 300px;
 }
 
 .player-controls {
