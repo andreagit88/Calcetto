@@ -25,6 +25,15 @@ body {
     width: 80%;
 }
 
+.login-input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 .buttons {
     margin-bottom: 20px;
 }
@@ -43,6 +52,15 @@ button:hover {
     background-color: #0056b3;
 }
 
+button[onclick="promptLogout()"] {
+    background-color: #dc3545; /* Rosso */
+    color: white;
+}
+
+button[onclick="promptLogout()"]:hover {
+    background-color: #c82333; /* Rosso scuro per hover */
+}
+
 .section {
     display: none;
 }
@@ -50,10 +68,6 @@ button:hover {
 .ranking-header {
     font-weight: bold;
     margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0px; /* Sposta "Classifica" di 300 pixel a destra */
 }
 
 ul {
@@ -77,18 +91,34 @@ li {
 .player-name {
     flex-grow: 1;
     font-weight: bold;
-    margin-right: -100px;
+    margin-right: 10px;
 }
 
 .player-ranking {
     font-weight: bold;
-    margin-right: 300px;
+    margin-right: 20px;
 }
 
 .player-controls {
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.player-controls span {
+    font-weight: bold;
+    margin: 0 10px;
+    text-align: center;
+}
+
+#addPlayerSection {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin-top: 20px;
 }
 
 .modal {
