@@ -1,4 +1,4 @@
-let currentSection = 'presenze';
+let currentSection = localStorage.getItem('currentSection') || 'presenze'; // Imposta la sezione corrente dal localStorage o usa 'presenze' come predefinito
 const players = JSON.parse(localStorage.getItem('players')) || [];
 let playerToDelete = null;
 let playerToEdit = null;
@@ -11,6 +11,7 @@ function showSection(section) {
     document.getElementById('addPlayerSection').style.display = 'none';
     document.getElementById(section + 'Section').style.display = 'block';
     currentSection = section;
+    localStorage.setItem('currentSection', section); // Memorizza la sezione corrente nel localStorage
     if (section !== 'addPlayer') renderList();
 }
 
@@ -157,3 +158,8 @@ function closeResetModal() {
 function closeLogoutModal() {
     document.getElementById('logoutModal').style.display = 'none';
 }
+
+// Mostra la sezione corrente al caricamento della pagina
+document.addEventListener('DOMContentLoaded', () => {
+    showSection(currentSection);
+});
