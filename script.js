@@ -38,107 +38,113 @@ function renderList() {
     });
 }
 
-// Modifica il punteggio del giocatore
+// Modifica il punteggio parziale del giocatore
 function modifyCount(playerName, amount) {
     const player = players.find(p => p.name === playerName);
     if (player) {
         if (!player[currentSection]) {
             player[currentSection] = { total: 0, partial: 0 };
         }
-        player[currentSection].partial = Math.max(0, (player[currentSection].partial || 0) + amount);
+        player[currentSection].partial += amount;
+        savePlayers();
         renderList();
     }
 }
 
-// Aggiungi un nuovo giocatore
+// Aggiungi un giocatore
 function addPlayer() {
-    const playerName = document.getElementById('newPlayerName').value;
-    if (playerName && !players.find(p => p.name === playerName)) {
-        players.push({ name: playerName, presenze: { total: 0, partial: 0 }, gol: { total: 0, partial: 0 } });
-        localStorage.setItem('players', JSON.stringify(players));
+    const name = document.getElementById('newPlayerName').value;
+    if (name && !players.find(p => p.name === name)) {
+        players.push({ name });
+        savePlayers();
+        renderList();
         document.getElementById('newPlayerName').value = '';
-        showSection('presenze');
     }
 }
 
-// Prompt per confermare eliminazione giocatore
+// Salva i dati dei giocatori in localStorage
+function savePlayers() {
+    localStorage.setItem('players', JSON.stringify(players));
+}
+
+// Mostra il modal di conferma eliminazione
 function promptDelete(playerName) {
     playerToDelete = playerName;
-    document.getElementById('deleteMessage').innerText = `Vuoi eliminare il giocatore ${playerName}?`;
+    document.getElementById('deleteMessage').innerText = `Sei sicuro di voler eliminare ${playerName}?`;
     document.getElementById('deleteModal').style.display = 'block';
 }
 
-// Conferma eliminazione giocatore
+// Conferma l'eliminazione del giocatore
 function confirmDelete() {
-    players.splice(players.findIndex(p => p.name === playerToDelete), 1);
-    localStorage.setItem('players', JSON.stringify(players));
-    renderList();
-    closeModal();
+    const index = players.findIndex(p => p.name === playerToDelete);
+    if (index > -1) {
+        players.splice(index, 1);
+        savePlayers();
+        renderList();
+        closeModal();
+    }
 }
 
-// Prompt per modificare il nome del giocatore
+// Chiudi il modal di eliminazione
+function closeModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+}
+
+// Mostra il modal di modifica
 function promptEdit(playerName) {
     playerToEdit = playerName;
     document.getElementById('newPlayerNameEdit').value = playerName;
     document.getElementById('editModal').style.display = 'block';
 }
 
-// Conferma modifica del nome del giocatore
+// Conferma la modifica del nome del giocatore
 function confirmEdit() {
     const newName = document.getElementById('newPlayerNameEdit').value;
-    if (newName && newName !== playerToEdit && !players.find(p => p.name === newName)) {
-        const player = players.find(p => p.name === playerToEdit);
+    const player = players.find(p => p.name === playerToEdit);
+    if (player && newName && !players.find(p => p.name === newName)) {
         player.name = newName;
-        localStorage.setItem('players', JSON.stringify(players));
+        savePlayers();
         renderList();
         closeEditModal();
     }
 }
 
-// Chiudi il modale
-function closeModal() {
-    document.getElementById('deleteModal').style.display = 'none';
-}
-
-// Chiudi il modale di modifica
+// Chiudi il modal di modifica
 function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
 }
 
-// Prompt per azzerare la classifica
+// Mostra il modal di conferma reset
 function promptResetRankings() {
     document.getElementById('resetModal').style.display = 'block';
 }
 
-// Conferma azzeramento classifica
+// Conferma il reset della classifica
 function confirmResetRankings() {
     players.forEach(player => {
-        player[currentSection].total = 0;
-        player[currentSection].partial = 0;
+        if (player[currentSection]) {
+            player[currentSection].total = 0;
+            player[currentSection].partial = 0;
+        }
     });
-    localStorage.setItem('players', JSON.stringify(players));
+    savePlayers();
     renderList();
     closeResetModal();
 }
 
-// Chiudi il modale di reset
+// Chiudi il modal di reset
 function closeResetModal() {
     document.getElementById('resetModal').style.display = 'none';
 }
 
-// Aggiorna la classifica (aggiunge i punteggi parziali al totale)
+// Aggiorna la classifica totale con i valori parziali
 function updateRankings() {
     players.forEach(player => {
-        if (!player[currentSection]) {
-            player[currentSection] = { total: 0, partial: 0 };
+        if (player[currentSection]) {
+            player[currentSection].total += player[currentSection].partial;
+            player[currentSection].partial = 0; // Resetta il parziale dopo l'aggiornamento
         }
-        player[currentSection].total += player[currentSection].partial;
-        player[currentSection].partial = 0;
     });
-    localStorage.setItem('players', JSON.stringify(players));
+    savePlayers();
     renderList();
 }
-
-// Mostra inizialmente la sezione presenze
-document.getElementById('appSection').style.display = 'block';
-showSection('presenze');

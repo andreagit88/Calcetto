@@ -53,15 +53,7 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 480px;/* Center the text horizontally if needed */
-}
-
-.classifica {
-    /* No additional margin needed here */
-}
-
-.parziale {
-    margin-left: 410px; /* Moves "Parziale" 500px to the right from "Classifica" */
+    margin-left: 0px; /* Sposta "Classifica" di 300 pixel a destra */
 }
 
 ul {
