@@ -25,27 +25,19 @@ body {
     width: 80%;
 }
 
-.login-input {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
 .buttons {
     margin-bottom: 20px;
 }
 
 button {
     margin: 5px;
-    padding: 10px 20px;
+    padding: 12px 24px; /* Ingrandito il padding dei bottoni */
     border: none;
     border-radius: 5px;
     background-color: #007BFF;
     color: white;
     cursor: pointer;
+    font-size: 16px; /* Ingrandito il font dei bottoni */
 }
 
 button:hover {
@@ -68,6 +60,7 @@ button[onclick="promptLogout()"]:hover {
 .ranking-header {
     font-weight: bold;
     margin-top: 20px;
+    font-size: 24px; /* Ingrandito il font della intestazione della classifica */
 }
 
 ul {
@@ -76,7 +69,7 @@ ul {
 }
 
 li {
-    padding: 10px;
+    padding: 15px; /* Ingrandito il padding degli elementi della lista */
     border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
@@ -91,24 +84,30 @@ li {
 .player-name {
     flex-grow: 1;
     font-weight: bold;
+    font-size: 35px; /* Ingrandito il font del nome del giocatore */
     margin-right: 10px;
 }
 
 .player-ranking {
     font-weight: bold;
+    font-size: 35px; /* Ingrandito il font del punteggio della classifica */
     margin-right: 20px;
 }
 
 .player-controls {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px; /* Aumentato lo spazio tra i controlli */
 }
 
-.player-controls span {
-    font-weight: bold;
+.player-controls button {
+    font-size: 35px; /* Ingrandito il font dei tasti + e - */
+    padding: 10px 15px; /* Aumentato il padding dei tasti */
+}
+
+.player-number {
+    font-size: 35px; /* Ingrandito il font del punteggio parziale */
     margin: 0 10px;
-    text-align: center;
 }
 
 #addPlayerSection {
